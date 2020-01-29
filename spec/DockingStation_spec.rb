@@ -21,6 +21,13 @@ describe DockingStation do
     expect(docking_station.release_bike).to be_a Bike
     #expect{docking_station.release_bike}.to raise_error
   end
+  it 'does not release broken bikes' do
+    docking_station = DockingStation.new
+    bike = Bike.new
+    bike.report_broken
+    docking_station.dock(bike)
+    expect{docking_station.release_bike}.to raise_error 'there are no working bikes'
+  end
   it 'responds to dock' do
     expect(DockingStation.new).to respond_to(:dock).with(1).argument
   end
