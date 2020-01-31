@@ -8,8 +8,9 @@ class DockingStation
 
   def release_bike
     fail 'there are no bikes' if empty?
-    bike = @bikes.pop
-    fail 'there are no working bikes' if bike.broken?
+    bike = get_first_working_bike
+    fail 'there are no working bikes' if bike == nil
+    @bikes.delete bike
     bike
   end
 
@@ -32,5 +33,14 @@ class DockingStation
 
   def empty?
     @bikes.empty?
+  end
+
+  def get_first_working_bike
+    @bikes.each do |x|
+      if x.working?
+        return x
+      end
+    end
+    return nil
   end
 end
